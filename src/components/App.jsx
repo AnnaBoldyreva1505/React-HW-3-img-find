@@ -10,10 +10,12 @@ export class App extends Component {
   };
 
   render() {
+    const {isLoading} = this.state
     return (
       <>
       {/* this.state.isLoading ? <Loader /> : <ImageGallery  /> */}
       <ImageGallery  />
+      {isLoading && <h1>LOADING!</h1>}
       <Loader />
         <Button />
         <ImageModal />
