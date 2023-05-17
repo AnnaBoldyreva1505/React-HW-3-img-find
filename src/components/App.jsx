@@ -4,8 +4,8 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { ImageModal } from './Modal/Modal';
 import { Searchbar } from './Searchbar/Searchbar';
-import { fetchImg } from './Constants/api';
-import { HTTP_ERROR_MSG } from './Constants/constants';
+import { fetchImg } from './constants/api';
+import { HTTP_ERROR_MSG } from './constants/constants';
 import {AppStyle} from './App.styled'
 
 export class App extends Component {
