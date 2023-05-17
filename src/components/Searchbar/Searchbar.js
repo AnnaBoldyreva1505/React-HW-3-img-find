@@ -1,45 +1,47 @@
 import { Component } from 'react';
+import { BsFillSearchHeartFill } from 'react-icons/bs';
+import { HeaderSearchbar, SearchForm, SearchFormButton, SearchFormButtonInput, Span } from './Searchbar.styled';
 
-
-export  class Searchbar extends Component {
+export class Searchbar extends Component {
   state = {
-    pokemonName: '',
+    searchQuery: '',
   };
 
   handleNameChange = event => {
-    console.log(event.currentTarget.value)
-    this.setState({ pokemonName: event.currentTarget.value.toLowerCase() });
+    console.log(event.currentTarget.value);
+    this.setState({ searchQuery: event.currentTarget.value.toLowerCase() });
   };
 
   handleSubmit = event => {
     event.preventDefault();
 
-    if (this.state.pokemonName.trim() === '') {
+    if (this.state.searchQuery.trim() === '') {
       alert('Введите имя покемона.');
+      return;
     }
 
-    this.props.onSubmit(this.state.pokemonName);
-    this.setState({ pokemonName: '' });
+    this.props.onSubmit(this.state.searchQuery);
+    this.setState({ searchQuery: '' });
   };
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          name="pokemonName"
-          value={this.state.pokemonName}
-          onChange={this.handleNameChange}
-        />
-        <button type="submit">
-          Найти
-        </button>
-      </form>
+      <HeaderSearchbar>
+        <SearchForm onSubmit={this.handleSubmit}>
+          <SearchFormButton type="submit">
+            <Span><BsFillSearchHeartFill size='2em' fill='#3f51b5'/></Span>
+          </SearchFormButton>
+          <SearchFormButtonInput
+            type="text"
+            name="searchQuery"
+            value={this.state.searchQuery}
+            onChange={this.handleNameChange}
+          />
+        </SearchForm>
+      </HeaderSearchbar>
     );
   }
 }
-
-
 
 // export class Searchbar extends Component {
 //   state = {

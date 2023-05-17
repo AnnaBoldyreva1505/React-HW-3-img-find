@@ -1,9 +1,9 @@
-export const ImageGalleryItem = () => {
-    return (
-        <li>
-        <img src="https://img1.goodfon.ru/wallpaper/nbig/a/69/kartinka-3d-dikaya-koshka.jpg" alt="" width="320px"/>
-      </li>
+import {ImageGalleryItemLi, ImageGalleryItemImage} from './ImageGalleryItem.styled.'
 
-    );
-  };
-  
+export const ImageGalleryItem = ({ src, alt, largeImageURL }) => {
+  return (
+    <ImageGalleryItemLi>
+      <ImageGalleryItemImage src={src} alt={alt} />
+    </ImageGalleryItemLi>
+  );
+};

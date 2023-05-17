@@ -6,47 +6,59 @@ import { ImageModal } from './Modal/Modal';
 import { Searchbar } from './Searchbar/Searchbar';
 import { fetchImg } from './Constants/api';
 import { HTTP_ERROR_MSG } from './Constants/constants';
+import {AppStyle} from './App.styled'
 
 export class App extends Component {
   state = {
-    isLoading: false,
+    loading: false,
     images: [],
     page: 1,
-    query: '',
-    pokemonName: '',
+    searchQuery: '',
+    error: null,
   };
 
-  handleFormSubmit = pokemonName => {
-    this.setState({ pokemonName });
-
+  handleFormSubmit = searchQuery => {
+    this.setState({ searchQuery, images: [], page: 1 });
   };
 
-  // async componentDidUpdate() {
-  //   try {
-  //     this.setState({ loading: true, error: null });
-  //     const fetchedImg = await fetchImg();
-  //     console.log(fetchedImg)
-  //     this.setState({ images: fetchedImg });
-  //   } catch (error) {
-  //     this.setState({ error: HTTP_ERROR_MSG });
-  //   } finally {
-  //     this.setState({ loading: false });
-  //   }
-  // }
+  async componentDidUpdate(prevProps, prevState) {
+    if (prevState.searchQuery !== this.state.searchQuery) {
+      try {
+        const fetchedImg = await fetchImg(
+          this.state.searchQuery,
+          this.state.page
+        );
+        this.setState({ images: fetchedImg });
+        console.log(fetchedImg);
+      } catch (error) {
+        this.setState({ error: HTTP_ERROR_MSG });
+      } finally {
+        this.setState({ loading: false });
+      }
+    }
+  }
 
+  handleLoadMore = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
+    console.log("first")
+  };
 
   render() {
-    const { isLoading } = this.state;
+    const { loading, images } = this.state;
 
     return (
-      <>
-        <Searchbar onSubmit={this.handleFormSubmit}/>
-        {/* this.state.isLoading ? <Loader /> : <ImageGallery  /> */}
-        <ImageGallery />
-        {isLoading && <Loader />}
-        <Button />
+      <AppStyle>
+        <Searchbar onSubmit={this.handleFormSubmit} />
+        {/* this.state.loading ? <Loader /> : <ImageGallery  /> */}
+        <ImageGallery images={images} />
+        {loading && <Loader />}
+        {/* <Button onLoadMore={this.handleLoadMore} page={page} /> */}
+        {images.length > 0 && <Button onLoadMore={this.handleLoadMore} />}
+        
         <ImageModal />
-      </>
+      </AppStyle>
     );
   }
 }
