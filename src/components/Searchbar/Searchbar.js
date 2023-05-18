@@ -1,14 +1,14 @@
 import { Component } from 'react';
 import { BsFillSearchHeartFill } from 'react-icons/bs';
 import { HeaderSearchbar, SearchForm, SearchFormButton, SearchFormButtonInput, Span } from './Searchbar.styled';
-
+import toast, { Toaster } from 'react-hot-toast';
 export class Searchbar extends Component {
   state = {
     searchQuery: '',
   };
 
   handleNameChange = event => {
-    console.log(event.currentTarget.value);
+ 
     this.setState({ searchQuery: event.currentTarget.value.toLowerCase() });
   };
 
@@ -16,7 +16,9 @@ export class Searchbar extends Component {
     event.preventDefault();
 
     if (this.state.searchQuery.trim() === '') {
-      alert('Введите имя покемона.');
+      toast.error(
+        'Enter your requests'
+      );
       return;
     }
 
@@ -36,50 +38,10 @@ export class Searchbar extends Component {
             name="searchQuery"
             value={this.state.searchQuery}
             onChange={this.handleNameChange}
+            placeholder='Search images and photos'
           />
         </SearchForm>
       </HeaderSearchbar>
     );
   }
 }
-
-// export class Searchbar extends Component {
-//   state = {
-//     query: '',
-//     images: [],
-//   };
-
-//   handleChange = e => {
-//     console.log(e.target.value);
-//     this.setState({ query: e.currentTarget.value.toLowerCase() });
-//   };
-
-//   handleSubmit = e => {
-//     e.preventDefault();
-//     if (this.state.query.trim() === '') {
-//       alert('Enter your request');
-//     }
-//     this.props.onSubmit(this.state.query);
-//     this.setState({ query: '' });
-//   };
-
-//   render() {
-//     const { query } = this.state;
-//     return (
-//       <header>
-//         <form onSubmit={this.handleSubmit}>
-//           <button type="submit">
-//             <span>Search</span>
-//           </button>
-
-//           <input
-//             type="text"
-//             placeholder="Search images and photos"
-//             value={query}
-//             onChange={this.handleChange}
-//           />
-//         </form>
-//       </header>
-//     );
-//   }
-// }

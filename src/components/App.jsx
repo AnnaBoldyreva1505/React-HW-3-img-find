@@ -1,8 +1,8 @@
 import { Component } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { Loader } from './Loader/Loader';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
-// import { ImageModal } from './Modal/Modal';
 import { Searchbar } from './Searchbar/Searchbar';
 import { fetchImg } from '../api';
 import { HTTP_ERROR_MSG } from '../constants/constants';
@@ -10,75 +10,78 @@ import { AppStyle } from './App.styled';
 
 export class App extends Component {
   state = {
-    loading: false,
+    isLoading: false,
     images: [],
     page: 1,
     searchQuery: '',
     error: null,
-    isModalOpen: false,
+    totalHits: 0,
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    const { searchQuery, page } = this.state;
+    if (prevState.searchQuery !== searchQuery || prevState.page !== page) {
+      this.getImg(searchQuery, page);
+    }
+  }
+
+  getImg = async (searchQuery, page) => {
+    this.setState({ isLoading: true });
+    if (!searchQuery) {
+      return;
+    }
+    try {
+      const { hits, totalHits } = await fetchImg(searchQuery, page);
+
+      if (hits.length === 0) {
+        toast.error(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+        return;
+      }
+
+      if (page === 1) {
+        toast.success(`Hooray! We found ${totalHits} images!`);
+      }
+
+      this.setState(prevState => ({
+        images: [...prevState.images, ...hits],
+        totalHits,
+      }));
+    } catch (error) {
+      this.setState({ error: HTTP_ERROR_MSG });
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
 
   handleFormSubmit = searchQuery => {
     this.setState({ searchQuery, images: [], page: 1 });
-    console.log(this.state.images.pageURL);
   };
-
-  async componentDidUpdate(prevProps, prevState) {
-    if (prevState.searchQuery !== this.state.searchQuery) {
-      try {
-        this.setState({ loading: true });
-        const fetchedImg = await fetchImg(
-          this.state.searchQuery,
-          this.state.page
-        );
-
-        this.setState({ images: fetchedImg });
-        console.log(fetchedImg);
-      } catch (error) {
-        this.setState({ error: HTTP_ERROR_MSG });
-      } finally {
-        this.setState({ loading: false });
-      }
-    }
-  }
 
   handleLoadMore = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
-    console.log('first');
   };
 
-  // toggleModal = () => {
-  //   this.setState(({ isModalOpen }) => ({
-  //     isModalOpen: !isModalOpen,
-  //   }));
-  // };
-
-  // selectImg = imgUrl => {
-  //   this.setState({
-  //     selectedImg: imgUrl,
-  //   });
-  // };
-
   render() {
-    const { loading, images  } = this.state;
+    const { isLoading, images, totalHits } = this.state;
 
     return (
       <AppStyle>
-
+        
         <Searchbar onSubmit={this.handleFormSubmit} />
+        {isLoading && <Loader />}
+        <ImageGallery images={images} />
 
-        {loading ? (
-          <Loader />
-        ) : (
-          <ImageGallery images={images} />
-        )}
-
-        {/* <Button onLoadMore={this.handleLoadMore} page={page} /> */}
-        {images.length > 0 && <Button onLoadMore={this.handleLoadMore} />}
-
-        {/* <ImageModal toggleModal={this.toggleModal} isOpen={isModalOpen} /> */}
+        {!isLoading &&
+          images.length !== 0 &&
+          images.length >= 12 &&
+          images.length < totalHits && (
+            <Button onLoadMore={this.handleLoadMore} />
+          )}
+          <Toaster />
       </AppStyle>
     );
   }

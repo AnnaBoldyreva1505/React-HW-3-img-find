@@ -1,15 +1,18 @@
-
 import { Hearts } from 'react-loader-spinner';
+import {LoaderWrapper} from './Loader.styled'
 
 export const Loader = () => {
-  return <Hearts 
-  height="80"
-  width="80"
-  color="#3f51b5"
-  ariaLabel="hearts-loading"
-  wrapperStyle={{}}
-  wrapperClass=""
-  visible={true}
-/>
-
-}
+  return (
+    <LoaderWrapper>
+      <Hearts
+        height="80"
+        width="80"
+        color="#3f51b5"
+        ariaLabel="hearts-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+        visible={true}
+      />
+    </LoaderWrapper>
+  );
+};
