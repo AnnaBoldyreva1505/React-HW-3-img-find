@@ -5,7 +5,7 @@ export const Loader = () => {
   return <Hearts 
   height="80"
   width="80"
-  color="red"
+  color="#3f51b5"
   ariaLabel="hearts-loading"
   wrapperStyle={{}}
   wrapperClass=""

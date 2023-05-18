@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const fetchImg = async (query, page = 1) => {
     const response = await axios.get(`https://pixabay.com/api/?q=${query}&page=${page}&key=14239803-1525d40278084147650a3f538&image_type=photo&orientation=horizontal&per_page=12`);
-    console.log(response.data)
+    console.log(response.data.hits)
     return response.data.hits;
   };
   console.log(fetchImg())

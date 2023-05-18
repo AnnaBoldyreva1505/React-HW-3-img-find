@@ -2,7 +2,7 @@ import React from 'react'
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { ImageGalleryGrid } from './ImageGallery.styled'
 
-export function ImageGallery({images}) {
+export function ImageGallery({images, selectImg}) {
   return (
     <ImageGalleryGrid>
       {images.map(({ id, webformatURL, largeImageURL, tags }) => (
@@ -11,6 +11,7 @@ export function ImageGallery({images}) {
           src={webformatURL}
           alt={tags}
           largeImageURL={largeImageURL}
+          selectImg={selectImg}
         />
       ))}
     </ImageGalleryGrid>
