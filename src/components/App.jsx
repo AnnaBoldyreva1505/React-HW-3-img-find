@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { Loader } from './Loader/Loader';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
-import { ImageModal } from './Modal/Modal';
+// import { ImageModal } from './Modal/Modal';
 import { Searchbar } from './Searchbar/Searchbar';
 import { fetchImg } from '../api';
 import { HTTP_ERROR_MSG } from '../constants/constants';
@@ -16,7 +16,6 @@ export class App extends Component {
     searchQuery: '',
     error: null,
     isModalOpen: false,
-    // selectedImg: null,
   };
 
   handleFormSubmit = searchQuery => {
@@ -56,28 +55,24 @@ export class App extends Component {
   //   }));
   // };
 
-  selectImg = imgUrl => {
-    this.setState({
-      selectedImg: imgUrl,
-    });
-  };
+  // selectImg = imgUrl => {
+  //   this.setState({
+  //     selectedImg: imgUrl,
+  //   });
+  // };
 
   render() {
-    const { loading, images, isModalOpen, selectedImg } = this.state;
+    const { loading, images  } = this.state;
 
     return (
       <AppStyle>
-        {selectedImg && (
-          <h1>
-            IMAGE MODAL <img src={selectedImg} alt="" width='400'/>
-          </h1>
-        )}
+
         <Searchbar onSubmit={this.handleFormSubmit} />
 
         {loading ? (
           <Loader />
         ) : (
-          <ImageGallery images={images} selectImg={this.selectImg} />
+          <ImageGallery images={images} />
         )}
 
         {/* <Button onLoadMore={this.handleLoadMore} page={page} /> */}

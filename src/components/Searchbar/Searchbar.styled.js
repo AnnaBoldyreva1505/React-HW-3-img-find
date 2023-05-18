@@ -61,7 +61,8 @@ export const SearchFormButton = styled.button`
 
 export const SearchFormButtonInput = styled.input`
   display: inline-block;
-  max-width: 600px;
+  width:100%;
+  height:30px;
   font: inherit;
   font-size: 20px;
   border: none;
