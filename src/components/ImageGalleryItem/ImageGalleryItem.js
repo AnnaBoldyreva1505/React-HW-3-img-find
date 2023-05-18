@@ -28,7 +28,14 @@ export class ImageGalleryItem extends Component {
         <ImageGalleryItemLi onClick={this.openModal}>
           <ImageGalleryItemImage src={src} alt={alt} />
         </ImageGalleryItemLi>
-        {isModalOpen && <ImageModal imgURL={src} alt={alt} isOpen={isModalOpen} onClose={this.closeModal}/>}
+        {isModalOpen && (
+          <ImageModal
+            imgURL={src}
+            alt={alt}
+            isOpen={isModalOpen}
+            onClose={this.closeModal}
+          />
+        )}
       </>
     );
   }
