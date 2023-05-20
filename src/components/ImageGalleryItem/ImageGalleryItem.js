@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import {
   ImageGalleryItemLi,
   ImageGalleryItemImage,
@@ -15,7 +17,6 @@ export class ImageGalleryItem extends Component {
   };
 
   closeModal = e => {
-    // e.stopPropagation();
     this.setState({ isModalOpen: false });
   };
 
@@ -40,3 +41,11 @@ export class ImageGalleryItem extends Component {
     );
   }
 }
+
+ImageGalleryItem.propTypes = {
+  isModalOpen: PropTypes.bool,
+  src: PropTypes.string,
+  alt: PropTypes.string,
+  openModal: PropTypes.func,
+  closeModal: PropTypes.func,
+};
