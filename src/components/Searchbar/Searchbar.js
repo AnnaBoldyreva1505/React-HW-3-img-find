@@ -1,11 +1,15 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { BsFillSearchHeartFill } from 'react-icons/bs';
 import { HeaderSearchbar, SearchForm, SearchFormButton, SearchFormButtonInput, Span } from './Searchbar.styled';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
+
 export class Searchbar extends Component {
   state = {
     searchQuery: '',
   };
+
+  
 
   handleNameChange = event => {
  
@@ -27,6 +31,9 @@ export class Searchbar extends Component {
   };
 
   render() {
+
+    const {searchQuery} = this.state
+
     return (
       <HeaderSearchbar>
         <SearchForm onSubmit={this.handleSubmit}>
@@ -36,7 +43,7 @@ export class Searchbar extends Component {
           <SearchFormButtonInput
             type="text"
             name="searchQuery"
-            value={this.state.searchQuery}
+            value={searchQuery}
             onChange={this.handleNameChange}
             placeholder='Search images and photos'
           />
@@ -44,4 +51,9 @@ export class Searchbar extends Component {
       </HeaderSearchbar>
     );
   }
+}
+
+Searchbar.propTypes = {
+  searchQuery: PropTypes.string,
+  onSubmit: PropTypes.func,
 }
